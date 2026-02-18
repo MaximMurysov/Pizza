@@ -66,11 +66,26 @@ function PizzaApp() {
                 <p className={styles.pizzaPrice}>{elem.price}</p>
                 {inCart ? (
                   <div className={styles.addPizza}>
-                    <button onClick={() => incrementPizza(elem.name)}>+</button>
-                    <button onClick={() => decrementPizza(elem.name)}>-</button>
+                    <button
+                      className={styles.buttonActive}
+                      onClick={() => incrementPizza(elem.name)}
+                    >
+                      +
+                    </button>
+                    <button
+                      className={styles.buttonActive}
+                      onClick={() => decrementPizza(elem.name)}
+                    >
+                      -
+                    </button>
                   </div>
                 ) : (
-                  <button onClick={() => addToCart(elem)}>Добавить</button>
+                  <button
+                    onClick={() => addToCart(elem)}
+                    className={styles.addBtn}
+                  >
+                    Добавить
+                  </button>
                 )}
               </div>
             );
@@ -80,25 +95,27 @@ function PizzaApp() {
           {cart.map((elem) => (
             <div key={elem.id} className={styles.cartItem}>
               <p>{elem.name}</p>
-              <button
-                className={styles.addPizza}
-                onClick={() => incrementPizza(elem.name)}
-              >
-                +
-              </button>
-              <p>{elem.quantity}</p>
-              <button
-                className={styles.addPizza}
-                onClick={() => decrementPizza(elem.name)}
-              >
-                -
-              </button>
+              <div className={styles.countPizza}>
+                <button
+                  className={styles.buttonActive}
+                  onClick={() => incrementPizza(elem.name)}
+                >
+                  +
+                </button>
+                <p className={styles.quantityPizza}>{elem.quantity}</p>
+                <button
+                  className={styles.buttonActive}
+                  onClick={() => decrementPizza(elem.name)}
+                >
+                  -
+                </button>
+              </div>
               <p>{elem.price}</p>
               <p>= {sumTotalPizza(elem.name)} р</p>
             </div>
           ))}
         </div>
-        <h3>total:{totalSum}</h3>
+        <h3>{cart.length >= 1 && <>total:{totalSum}</>}</h3>
       </div>
     </div>
   );
