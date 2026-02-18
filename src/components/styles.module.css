@@ -45,4 +45,9 @@
   border: 1px rgba(0, 0, 0, 0.452) solid;
   border-radius: 5px;
   padding: 3px;
+  margin-bottom: 10px;
+}
+.addPizza {
+  display: flex;
+  gap: 5px;
 }
