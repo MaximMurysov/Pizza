@@ -1,7 +1,7 @@
 import styles from "./styles.module.css";
 function CartItem({ elem, incrementPizza, decrementPizza }) {
   return (
-    <div key={elem.id} className={styles.cartItem}>
+    <div className={styles.cartItem}>
       <p>{elem.name}</p>
       <button
         className={styles.buttonActive}
