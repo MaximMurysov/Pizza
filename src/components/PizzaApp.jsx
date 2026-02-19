@@ -1,27 +1,23 @@
 import { useState } from "react";
 import styles from "./styles.module.css";
 import { pizzas } from "./main";
+import PizzaCard from "./PizzaCard";
+import CartItem from "./CartItem";
+
 function PizzaApp() {
   const [cart, setCart] = useState([]);
 
+  console.log(cart);
   const addToCart = (pizza) => {
-    console.log(pizza);
-
-    console.log("Ищем:", pizza.name);
-    console.log(
-      "В корзине:",
-      cart.map((c) => c.name),
-    );
-    console.log(pizza);
-    const newPizza = {
+    const addPizza = {
       id: crypto.randomUUID(),
       name: pizza.name,
-      price: Number(pizza.price),
+      price: pizza.price,
       quantity: 1,
     };
-    const existing = cart.some((elem) => elem.name === pizza.name);
-    console.log(existing);
-    if (existing) {
+    const isDuplicate = cart.find((elem) => elem.name === pizza.name);
+    console.log(isDuplicate);
+    if (isDuplicate) {
       setCart(
         cart.map((elem) =>
           elem.name === pizza.name
@@ -30,30 +26,30 @@ function PizzaApp() {
         ),
       );
     } else {
-      setCart([...cart, newPizza]);
+      setCart([...cart, addPizza]);
     }
   };
-  const incrementPizza = (name) => {
-    setCart(
-      cart.map((elem) =>
-        elem.name === name ? { ...elem, quantity: elem.quantity + 1 } : elem,
-      ),
-    );
-  };
-  const decrementPizza = (name) => {
+  const decrementPizza = (id) => {
     setCart(
       cart
         .map((elem) =>
-          elem.name === name ? { ...elem, quantity: elem.quantity - 1 } : elem,
+          elem.id === id ? { ...elem, quantity: elem.quantity - 1 } : elem,
         )
         .filter((elem) => elem.quantity > 0),
     );
   };
-  const sumTotalPizza = (name) =>
-    cart
-      .filter((elem) => elem.name === name)
-      .reduce((acc, num) => acc + num.price * num.quantity, 0);
-  const totalSum = cart.reduce((acc, num) => acc + num.price * num.quantity, 0);
+  const incrementPizza = (id) => {
+    setCart(
+      cart.map((elem) =>
+        elem.id === id ? { ...elem, quantity: elem.quantity + 1 } : elem,
+      ),
+    );
+  };
+  const sumPizza = cart.reduce(
+    (acc, elem) => (acc += elem.price * elem.quantity),
+    0,
+  );
+
   return (
     <div className={styles.pizza}>
       <div className={styles.pizzaContainer}>
@@ -61,61 +57,27 @@ function PizzaApp() {
           {pizzas.map((elem) => {
             const inCart = cart.find((pizza) => elem.name === pizza.name);
             return (
-              <div key={elem.name} className={styles.pizzaItem}>
-                <p className={styles.pizzaName}>{elem.name}</p>
-                <p className={styles.pizzaPrice}>{elem.price}</p>
-                {inCart ? (
-                  <div className={styles.addPizza}>
-                    <button
-                      className={styles.buttonActive}
-                      onClick={() => incrementPizza(elem.name)}
-                    >
-                      +
-                    </button>
-                    <button
-                      className={styles.buttonActive}
-                      onClick={() => decrementPizza(elem.name)}
-                    >
-                      -
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => addToCart(elem)}
-                    className={styles.addBtn}
-                  >
-                    Добавить
-                  </button>
-                )}
-              </div>
+              <PizzaCard
+                key={elem.name}
+                elem={elem}
+                inCart={inCart}
+                incrementPizza={incrementPizza}
+                decrementPizza={decrementPizza}
+                addToCart={addToCart}
+              />
             );
           })}
         </div>
         <div className={styles.cartContainer}>
           {cart.map((elem) => (
-            <div key={elem.id} className={styles.cartItem}>
-              <p>{elem.name}</p>
-              <div className={styles.countPizza}>
-                <button
-                  className={styles.buttonActive}
-                  onClick={() => incrementPizza(elem.name)}
-                >
-                  +
-                </button>
-                <p className={styles.quantityPizza}>{elem.quantity}</p>
-                <button
-                  className={styles.buttonActive}
-                  onClick={() => decrementPizza(elem.name)}
-                >
-                  -
-                </button>
-              </div>
-              <p>{elem.price}</p>
-              <p>= {sumTotalPizza(elem.name)} р</p>
-            </div>
+            <CartItem
+              elem={elem}
+              incrementPizza={incrementPizza}
+              decrementPizza={decrementPizza}
+            />
           ))}
         </div>
-        <h3>{cart.length >= 1 && <>total:{totalSum}</>}</h3>
+        <div>Общая сумма{sumPizza}</div>
       </div>
     </div>
   );
