@@ -1,13 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./styles.module.css";
 import { pizzas } from "./main";
 import PizzaCard from "./PizzaCard";
 import CartItem from "./CartItem";
 
 function PizzaApp() {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    const saved = localStorage.getItem("pizza");
+    return saved ? JSON.parse(saved) : [];
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("pizza", JSON.stringify(cart));
+  }, [cart]);
 
-  console.log(cart);
+  const [sortType, setSortType] = useState("none");
+  const getSortedCart = () => {
+    if (sortType === "price") {
+      return [...cart].sort(
+        (a, b) => a.price * a.quantity - b.price * b.quantity,
+      );
+    }
+    if (sortType === "quantity") {
+      return [...cart].sort((a, b) => b.quantity - a.quantity);
+    }
+    return cart;
+  };
+
+  const sortPizzaItems = [
+    { label: "По умолчанию", value: "none" },
+    { label: "По цене", value: "price" },
+    { label: "По количеству", value: "quantity" },
+  ];
+  console.log(sortType);
   const addToCart = (pizza) => {
     const addPizza = {
       id: crypto.randomUUID(),
@@ -29,6 +53,7 @@ function PizzaApp() {
       setCart([...cart, addPizza]);
     }
   };
+
   const decrementPizza = (id) => {
     setCart(
       cart
@@ -69,7 +94,7 @@ function PizzaApp() {
           })}
         </div>
         <div className={styles.cartContainer}>
-          {cart.map((elem) => (
+          {getSortedCart().map((elem) => (
             <CartItem
               elem={elem}
               incrementPizza={incrementPizza}
@@ -77,7 +102,28 @@ function PizzaApp() {
             />
           ))}
         </div>
-        <div>Общая сумма{sumPizza}</div>
+        <div>Общая сумма: {sumPizza} ₽</div>
+        <div className={styles.sortPizzaContainer}>
+          <div className={styles.sortPizza}>
+            {sortPizzaItems.map((elem, index) => (
+              <div key={elem.value}>
+                <button
+                  key={index}
+                  className={styles.sortPizzaElem}
+                  onClick={() => setSortType(elem.value)}
+                >
+                  {elem.label}
+                </button>
+              </div>
+            ))}
+          </div>
+          <button
+            className={styles.sortPizzaElemClear}
+            onClick={() => setCart([])}
+          >
+            Очисить все
+          </button>
+        </div>
       </div>
     </div>
   );

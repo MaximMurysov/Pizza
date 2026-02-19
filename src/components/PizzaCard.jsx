@@ -9,7 +9,7 @@ function PizzaCard({
   return (
     <div className={styles.pizzaItem}>
       <p>{elem.name}</p>
-      <p>{elem.price}</p>
+      <p>{elem.price} ₽</p>
       {inCart ? (
         <div className={styles.addPizza}>
           <button

@@ -16,8 +16,8 @@ function CartItem({ elem, incrementPizza, decrementPizza }) {
       >
         -
       </button>
-      <p>{elem.price}</p>
-      <p>= {elem.price * elem.quantity}</p>
+      <p>{elem.price} ₽</p>
+      <p>= {elem.price * elem.quantity} ₽</p>
     </div>
   );
 }
