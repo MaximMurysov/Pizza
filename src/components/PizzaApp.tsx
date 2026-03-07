@@ -5,17 +5,23 @@ import PizzaCard from "./PizzaCard";
 import CartItem from "./CartItem";
 import SortButtons from "./SortButtons";
 
+interface Pizza {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+}
 function PizzaApp() {
-  const [cart, setCart] = useState(() => {
+  const [cart, setCart] = useState<Pizza[]>(() => {
     const saved = localStorage.getItem("pizza");
     return saved ? JSON.parse(saved) : [];
-  }, []);
+  });
   useEffect(() => {
     localStorage.setItem("pizza", JSON.stringify(cart));
   }, [cart]);
 
-  const [sortType, setSortType] = useState("none");
-  const getSortedCart = () => {
+  const [sortType, setSortType] = useState<string>("none");
+  const getSortedCart = (): Pizza[] => {
     if (sortType === "price") {
       return [...cart].sort(
         (a, b) => a.price * a.quantity - b.price * b.quantity,
@@ -26,43 +32,41 @@ function PizzaApp() {
     }
     return cart;
   };
-
-  const addToCart = (pizza) => {
-    const addPizza = {
-      id: crypto.randomUUID(),
+  const addToCart = (pizza: Pizza): void => {
+    if (!pizza.name.trim()) return;
+    const newPizza = {
+      id: pizza.id,
       name: pizza.name,
       price: pizza.price,
       quantity: 1,
     };
-    const isDuplicate = cart.find((elem) => elem.name === pizza.name);
-    console.log(isDuplicate);
-    if (isDuplicate) {
+    const isDublicate = cart.find((elem: Pizza) => elem.name === pizza.name);
+    if (isDublicate) {
       setCart(
-        cart.map((elem) =>
+        cart.map((elem: Pizza) =>
           elem.name === pizza.name
             ? { ...elem, quantity: elem.quantity + 1 }
             : elem,
         ),
       );
     } else {
-      setCart([...cart, addPizza]);
+      setCart([...cart, newPizza]);
     }
   };
-
-  const decrementPizza = (id) => {
+  const incrementPizza = (id: number) => {
+    setCart(
+      cart.map((elem: Pizza) =>
+        elem.id === id ? { ...elem, quantity: elem.quantity + 1 } : elem,
+      ),
+    );
+  };
+  const decrementPizza = (id: number): void => {
     setCart(
       cart
         .map((elem) =>
           elem.id === id ? { ...elem, quantity: elem.quantity - 1 } : elem,
         )
         .filter((elem) => elem.quantity > 0),
-    );
-  };
-  const incrementPizza = (id) => {
-    setCart(
-      cart.map((elem) =>
-        elem.id === id ? { ...elem, quantity: elem.quantity + 1 } : elem,
-      ),
     );
   };
   const sumPizza = cart.reduce(
@@ -100,7 +104,11 @@ function PizzaApp() {
         </div>
         <div>Общая сумма: {sumPizza} ₽</div>
         <div className={styles.sortPizzaContainer}>
-          <SortButtons setSortType={setSortType} setCart={setCart} />
+          <SortButtons
+            setSortType={setSortType}
+            setCart={setCart}
+            sortType={sortType}
+          />
         </div>
       </div>
     </div>

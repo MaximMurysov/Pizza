@@ -1,5 +1,17 @@
 import styles from "./styles.module.css";
-function CartItem({ elem, incrementPizza, decrementPizza }) {
+interface Pizza {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+interface CartItemProps {
+  elem: Pizza;
+  incrementPizza: (value: number) => void;
+  decrementPizza: (value: number) => void;
+}
+function CartItem({ elem, incrementPizza, decrementPizza }: CartItemProps) {
   return (
     <div className={styles.cartItem}>
       <p>{elem.name}</p>

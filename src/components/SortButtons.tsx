@@ -1,6 +1,18 @@
 import styles from "./styles.module.css";
 
-function SortButtons({ setSortType, setCart }) {
+interface Pizza {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+}
+interface SortButtonsProps {
+  setSortType: (value: string) => void;
+  setCart: (value: Pizza[]) => void;
+  sortType: string;
+}
+
+function SortButtons({ setSortType, setCart, sortType }: SortButtonsProps) {
   const sortPizzaItems = [
     { label: "По умолчанию", value: "none" },
     { label: "По цене", value: "price" },
@@ -12,6 +24,10 @@ function SortButtons({ setSortType, setCart }) {
         {sortPizzaItems.map((elem) => (
           <div key={elem.value}>
             <button
+              style={{
+                outline:
+                  sortType === elem.value ? "1px green solid" : undefined,
+              }}
               className={styles.sortPizzaElem}
               onClick={() => setSortType(elem.value)}
             >
