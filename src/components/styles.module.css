@@ -3,143 +3,212 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 .pizza {
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  padding: 20px;
+  padding: 24px;
+  background: radial-gradient(circle at top left, #8e9eff, #3b2667);
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  color: #1f2933;
 }
+
 .pizzaContainer {
-  background: white;
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
   width: 100%;
+  max-width: 920px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px 24px 28px;
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.2);
 }
+
 .pizzaList {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
+  flex-wrap: wrap;
+  gap: 16px;
 }
+
 .pizzaItem {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  background: #f8f9fa;
-  border-radius: 15px;
-  padding: 20px;
+  flex: 1 1 220px;
+  background: #f9fafb;
+  border-radius: 16px;
+  padding: 16px 14px 18px;
   text-align: center;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+  transition: transform 0.16s ease;
+}
+
+.pizzaItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+  background: #f3f4ff;
 }
 
 .pizzaItem p:first-child {
   font-size: 18px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 10px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 6px;
 }
+
 .pizzaItem p:last-child {
   font-size: 20px;
-  color: #667eea;
-  font-weight: bold;
-  margin-bottom: 15px;
+  font-weight: 700;
+  color: #6366f1;
+  margin-bottom: 10px;
 }
+
 .cartContainer {
-  margin-top: 30px;
-  border-top: 2px solid #f0f0f0;
-  padding-top: 20px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid #e5e7eb;
 }
+
 .cartItem {
   display: flex;
-  width: 100%;
-  gap: 10px;
-  border: 1px rgba(0, 0, 0, 0.452) solid;
-  border-radius: 5px;
-  padding: 3px;
-  margin-bottom: 10px;
   align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 10px;
 }
+
 .addPizza {
   display: flex;
   gap: 10px;
   justify-content: center;
+  margin-top: 10px;
 }
+
 .addBtn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 25px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: opacity 0.2s;
   width: 100%;
-}
-.addBtn:hover {
-  opacity: 0.9;
-}
-.buttonActive {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  padding: 10px 18px;
+  border-radius: 999px;
   border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
   cursor: pointer;
-  font-size: 18px;
-  font-weight: bold;
-  transition: opacity 0.2s;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    opacity 0.12s ease;
 }
+
+.addBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(79, 70, 229, 0.45);
+  opacity: 0.96;
+}
+
+.addBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.buttonActive {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eef2ff;
+  color: #4f46e5;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.12s ease,
+    transform 0.12s ease;
+}
+
 .buttonActive:hover {
-  opacity: 0.9;
+  background: #e0e7ff;
+  transform: translateY(-1px);
 }
 
 .countPizza {
   display: flex;
-  border: 2px rgba(255, 166, 0, 0.5) solid;
-  border-radius: 10px;
   align-items: center;
-  text-align: center;
+  border-radius: 999px;
+  border: 1px solid rgba(249, 115, 22, 0.6);
+  overflow: hidden;
+  background: #fff7ed;
 }
+
 .quantityPizza {
-  font-size: 25px;
-  font-weight: bold;
-  padding: 5px 10px;
+  min-width: 40px;
+  padding: 4px 10px;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  color: #9a3412;
 }
+
 .sortPizzaContainer {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
 }
+
 .sortPizza {
   display: flex;
-  gap: 30px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
+
 .sortPizzaElem {
-  margin-top: 20px;
-  background: #f0f0f0;
-  color: #333;
+  padding: 6px 14px;
+  border-radius: 999px;
   border: none;
-  padding: 8px 16px;
-  border-radius: 20px;
+  background: #f3f4f6;
+  color: #111827;
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease,
+    transform 0.12s ease;
 }
+
+.sortPizzaElem:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
+}
+
 .sortPizzaElemClear {
-  margin-top: 20px;
-  background: #df2c2c;
-  color: whitesmoke;
+  padding: 6px 14px;
+  border-radius: 999px;
   border: none;
-  padding: 8px 16px;
-  border-radius: 20px;
+  background: #ef4444;
+  color: #f9fafb;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s;
-  width: auto;
-  height: auto;
-  align-items: end;
+  transition:
+    background 0.12s ease,
+    transform 0.12s ease;
   display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sortPizzaElemClear:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
 }
